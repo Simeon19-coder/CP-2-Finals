@@ -145,6 +145,7 @@ public class StudentInformationSystem {
                 System.out.println("Invalid input! Enter a number.");
                 sc.next();
             }
+            }
         }
     
     static void updateStudent() {
