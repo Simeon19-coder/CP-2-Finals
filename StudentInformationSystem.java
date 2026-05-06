@@ -16,7 +16,7 @@ public class StudentInformationSystem {
     public static void main(String[] args) {
 
         int choice;
-
+        // Display Input
         do {
             System.out.println("\n STUDENT INFORMATION SYSTEM ");
             System.out.println("1. Add Student");
@@ -28,6 +28,9 @@ public class StudentInformationSystem {
             choice = getChoice();
 
             switch (choice) {
+
+
+            // Adding Student Info
                 case 1:
             if (count >= MAX) {
             System.out.println("Storage is full!");
@@ -70,6 +73,8 @@ public class StudentInformationSystem {
 
             break;
 
+
+            // View Student Info
                 case 2:
                     if (count == 0) {
                         System.out.println("No records found.");
@@ -82,7 +87,9 @@ public class StudentInformationSystem {
                         System.out.println(ids[i] + "\t" + firstNames[i] + "\t\t" + lastNames[i] + "\t\t" + phones[i]);
                     }
                     break;
+                    
 
+            // Search Student Info
                 case 3:
                     System.out.print("Enter ID to search: ");
                     String searchID = sc.nextLine();
@@ -99,16 +106,26 @@ public class StudentInformationSystem {
                     System.out.println("Student not found.");
 
                     break;
-
+                    
+                    
+            // Update Student Info
                 case 4:
                     updateStudent();
                     break;
+
+                    
+            // Delete Student Info
                 case 5:
                     deleteStudent();
                     break;
+
+                    
+            // Exit System       
                 case 6:
                     System.out.println("Exiting program...");
                     break;
+
+                    
                 default:
                     System.out.println("Invalid choice!");
             }
@@ -129,8 +146,7 @@ public class StudentInformationSystem {
                 sc.next();
             }
         }
-    }
-
+    
     static void updateStudent() {
 
         System.out.print("Enter ID to update: ");
