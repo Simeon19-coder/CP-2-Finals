@@ -40,7 +40,7 @@ public class Student_Info_system extends javax.swing.JFrame {
         ResultSet rs = pst.executeQuery();
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // clear table
+        model.setRowCount(0); 
 
         while (rs.next()) {
             model.addRow(new Object[]{
@@ -191,7 +191,7 @@ public class Student_Info_system extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 344, 764);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); 
         jLabel3.setText("STUDENT RECORD");
         getContentPane().add(jLabel3);
         jLabel3.setBounds(410, 690, 230, 30);
@@ -231,6 +231,11 @@ public class Student_Info_system extends javax.swing.JFrame {
         jButton1.setBounds(400, 390, 80, 23);
 
         jButton2.setText("DELETE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2);
         jButton2.setBounds(490, 390, 80, 23);
 
@@ -248,7 +253,7 @@ public class Student_Info_system extends javax.swing.JFrame {
         jLabel1.setBounds(343, 0, 370, 764);
 
         pack();
-    }// </editor-fold>                        
+    }                      
 
     private void txtemActionPerformed(java.awt.event.ActionEvent evt) {                                      
         // TODO add your handling code here:
@@ -352,15 +357,52 @@ public class Student_Info_system extends javax.swing.JFrame {
         
     }                                     
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        try {
+        int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a record to delete");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete this record?",
+                "Delete Confirmation",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        String id = jTable1.getValueAt(row, 0).toString();
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(dataConn, username, password);
+
+        String sql = "DELETE FROM info WHERE ID=?";
+        pst = conn.prepareStatement(sql);
+
+        pst.setString(1, id);
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Record Deleted Successfully!");
+
+        loadTable(); 
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+    }                                        
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -371,7 +413,7 @@ public class Student_Info_system extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+       
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Student_Info_system().setVisible(true));
