@@ -302,6 +302,41 @@ public class Student_Info_system extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
+        try {
+        int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a record to update");
+            return;
+        }
+
+        String id = jTable1.getValueAt(row, 0).toString();
+
+        String fname = txtf.getText();
+        String lname = txtl.getText();
+        String email = txtem.getText();
+        
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection(dataConn, username, password);
+
+        String sql = "UPDATE info SET FirstName=?, LastName=?, Email=? WHERE ID=?";
+        pst = conn.prepareStatement(sql);
+        
+        pst.setString(1, fname);
+        pst.setString(2, lname);
+        pst.setString(3, email);
+        pst.setString(4, id);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Record Updated Successfully!");
+
+        loadTable(); 
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
     }                                        
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
@@ -363,3 +398,4 @@ public class Student_Info_system extends javax.swing.JFrame {
     private javax.swing.JTextField txtl;
     // End of variables declaration                   
 }
+
